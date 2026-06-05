@@ -1,0 +1,452 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>刘志峰 | Robotics Engineer</title>
+    <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🤖</text></svg>">
+    <style>
+        /* ── Reset & Base ── */
+        *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --bg:        #0a0a0f;
+            --bg-card:   #12121a;
+            --border:    #1e1e2e;
+            --text:      #c8c8d0;
+            --text-dim:  #6e6e80;
+            --accent:    #00d4aa;
+            --accent2:   #7c5cff;
+            --glow:      rgba(0, 212, 170, .15);
+        }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: var(--bg);
+            color: var(--text);
+            line-height: 1.7;
+            overflow-x: hidden;
+        }
+
+        /* ── Animated Grid Background ── */
+        .bg-grid {
+            position: fixed; inset: 0; z-index: -1;
+            background-image:
+                linear-gradient(rgba(0,212,170,.03) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0,212,170,.03) 1px, transparent 1px);
+            background-size: 60px 60px;
+            animation: gridShift 20s linear infinite;
+        }
+        @keyframes gridShift { to { background-position: 60px 60px; } }
+
+        .bg-glow {
+            position: fixed; z-index: -1;
+            width: 600px; height: 600px;
+            border-radius: 50%;
+            filter: blur(120px);
+            opacity: .4;
+            pointer-events: none;
+        }
+        .bg-glow--1 { top: -200px; right: -100px; background: var(--accent); }
+        .bg-glow--2 { bottom: -200px; left: -100px; background: var(--accent2); }
+
+        /* ── Nav ── */
+        nav {
+            position: fixed; top: 0; width: 100%; z-index: 100;
+            backdrop-filter: blur(20px);
+            background: rgba(10,10,15,.7);
+            border-bottom: 1px solid var(--border);
+        }
+        nav .inner {
+            max-width: 1100px; margin: 0 auto;
+            padding: 0 2rem;
+            height: 60px;
+            display: flex; align-items: center; justify-content: space-between;
+        }
+        .nav-logo {
+            font-weight: 700; font-size: 1.1rem; color: #fff;
+            text-decoration: none;
+            letter-spacing: -.02em;
+        }
+        .nav-logo span { color: var(--accent); }
+        .nav-links { display: flex; gap: 2rem; }
+        .nav-links a {
+            color: var(--text-dim); text-decoration: none; font-size: .9rem;
+            transition: color .2s;
+        }
+        .nav-links a:hover { color: var(--accent); }
+
+        /* ── Hero ── */
+        .hero {
+            min-height: 100vh;
+            display: flex; align-items: center; justify-content: center;
+            padding: 6rem 2rem 4rem;
+            text-align: center;
+        }
+        .hero-content { max-width: 700px; }
+
+        .hero-badge {
+            display: inline-block;
+            padding: .35rem 1rem;
+            border: 1px solid var(--border);
+            border-radius: 999px;
+            font-size: .8rem;
+            color: var(--accent);
+            margin-bottom: 2rem;
+            background: rgba(0,212,170,.05);
+        }
+
+        .hero h1 {
+            font-size: clamp(2.5rem, 6vw, 4rem);
+            font-weight: 800;
+            color: #fff;
+            letter-spacing: -.03em;
+            line-height: 1.15;
+            margin-bottom: 1.5rem;
+        }
+        .hero h1 .gradient {
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.15rem;
+            color: var(--text-dim);
+            max-width: 520px;
+            margin: 0 auto 2.5rem;
+        }
+
+        .hero-cta {
+            display: inline-flex; align-items: center; gap: .5rem;
+            padding: .8rem 2rem;
+            border: 1px solid var(--accent);
+            border-radius: 8px;
+            color: var(--accent);
+            text-decoration: none;
+            font-size: .95rem;
+            transition: all .25s;
+        }
+        .hero-cta:hover {
+            background: var(--accent);
+            color: #0a0a0f;
+            box-shadow: 0 0 30px var(--glow);
+        }
+
+        /* ── Sections ── */
+        section { padding: 6rem 2rem; }
+        .container { max-width: 1100px; margin: 0 auto; }
+
+        .section-label {
+            font-size: .75rem;
+            text-transform: uppercase;
+            letter-spacing: .15em;
+            color: var(--accent);
+            margin-bottom: .75rem;
+        }
+        .section-title {
+            font-size: clamp(1.8rem, 4vw, 2.5rem);
+            font-weight: 700;
+            color: #fff;
+            margin-bottom: 3rem;
+            letter-spacing: -.02em;
+        }
+
+        /* ── About ── */
+        .about-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            align-items: center;
+        }
+        .about-avatar {
+            width: 280px; height: 280px;
+            border-radius: 20px;
+            background: linear-gradient(135deg, var(--accent), var(--accent2));
+            display: flex; align-items: center; justify-content: center;
+            font-size: 8rem;
+            margin: 0 auto;
+            box-shadow: 0 20px 60px rgba(0,212,170,.15);
+        }
+        .about-text p { margin-bottom: 1.2rem; }
+        .about-text p:first-child { font-size: 1.1rem; color: #fff; }
+
+        /* ── Research Cards ── */
+        .cards { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 1.5rem; }
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 16px;
+            padding: 2rem;
+            transition: all .3s;
+            position: relative;
+            overflow: hidden;
+        }
+        .card::before {
+            content: '';
+            position: absolute; top: 0; left: 0; right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--accent), var(--accent2));
+            opacity: 0;
+            transition: opacity .3s;
+        }
+        .card:hover {
+            border-color: rgba(0,212,170,.3);
+            transform: translateY(-4px);
+            box-shadow: 0 20px 40px rgba(0,0,0,.3);
+        }
+        .card:hover::before { opacity: 1; }
+
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+        .card h3 {
+            color: #fff;
+            font-size: 1.15rem;
+            margin-bottom: .75rem;
+        }
+        .card p {
+            font-size: .9rem;
+            color: var(--text-dim);
+            line-height: 1.6;
+        }
+
+        /* ── Timeline ── */
+        .timeline { position: relative; padding-left: 2rem; }
+        .timeline::before {
+            content: '';
+            position: absolute; left: 0; top: 0; bottom: 0;
+            width: 2px;
+            background: linear-gradient(to bottom, var(--accent), var(--accent2), transparent);
+        }
+        .timeline-item {
+            position: relative;
+            padding: 1.5rem 0 2.5rem 2rem;
+        }
+        .timeline-item::before {
+            content: '';
+            position: absolute; left: -2rem; top: 1.8rem;
+            width: 10px; height: 10px;
+            border-radius: 50%;
+            background: var(--accent);
+            box-shadow: 0 0 12px var(--glow);
+        }
+        .timeline-year {
+            font-size: .8rem;
+            color: var(--accent);
+            font-weight: 600;
+            margin-bottom: .3rem;
+        }
+        .timeline-item h3 {
+            color: #fff;
+            font-size: 1.1rem;
+            margin-bottom: .3rem;
+        }
+        .timeline-item p {
+            color: var(--text-dim);
+            font-size: .9rem;
+        }
+
+        /* ── Contact ── */
+        .contact-links {
+            display: flex; flex-wrap: wrap; gap: 1rem;
+            margin-top: 1rem;
+        }
+        .contact-link {
+            display: inline-flex; align-items: center; gap: .6rem;
+            padding: .8rem 1.5rem;
+            background: var(--bg-card);
+            border: 1px solid var(--border);
+            border-radius: 12px;
+            color: var(--text);
+            text-decoration: none;
+            font-size: .9rem;
+            transition: all .25s;
+        }
+        .contact-link:hover {
+            border-color: var(--accent);
+            color: var(--accent);
+            transform: translateY(-2px);
+        }
+        .contact-link svg {
+            width: 18px; height: 18px;
+            fill: currentColor;
+        }
+
+        /* ── Footer ── */
+        footer {
+            text-align: center;
+            padding: 3rem 2rem;
+            border-top: 1px solid var(--border);
+            color: var(--text-dim);
+            font-size: .85rem;
+        }
+        footer a { color: var(--accent); text-decoration: none; }
+
+        /* ── Responsive ── */
+        @media (max-width: 768px) {
+            .about-grid { grid-template-columns: 1fr; text-align: center; }
+            .about-avatar { width: 200px; height: 200px; font-size: 6rem; }
+            .nav-links { display: none; }
+            .contact-links { justify-content: center; }
+        }
+
+        /* ── Scroll Animation ── */
+        .fade-up {
+            opacity: 0; transform: translateY(30px);
+            transition: all .6s ease-out;
+        }
+        .fade-up.visible {
+            opacity: 1; transform: translateY(0);
+        }
+    </style>
+</head>
+<body>
+
+<div class="bg-grid"></div>
+<div class="bg-glow bg-glow--1"></div>
+<div class="bg-glow bg-glow--2"></div>
+
+<!-- Nav -->
+<nav>
+    <div class="inner">
+        <a href="#" class="nav-logo">LZF<span>.</span></a>
+        <div class="nav-links">
+            <a href="#about">关于</a>
+            <a href="#research">研究方向</a>
+            <a href="#experience">经历</a>
+            <a href="#contact">联系</a>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero -->
+<section class="hero">
+    <div class="hero-content">
+        <div class="hero-badge">🤖 Robotics Engineer · Shenzhen</div>
+        <h1>
+            嗨，我是<br>
+            <span class="gradient">刘志峰</span>
+        </h1>
+        <p>
+            专注于具身智能与机器人系统研发，致力于让机器人真正理解并融入物理世界。
+        </p>
+        <a href="#research" class="hero-cta">
+            探索我的工作 ↓
+        </a>
+    </div>
+</section>
+
+<!-- About -->
+<section id="about">
+    <div class="container">
+        <div class="about-grid fade-up">
+            <div class="about-avatar">🤖</div>
+            <div class="about-text">
+                <div class="section-label">关于我</div>
+                <p>我是一名机器人工程师，坐标深圳。</p>
+                <p>我的研究与工作聚焦于具身智能（Embodied Intelligence）领域，涵盖人形机器人、四足机器人和无人机系统。我热衷于探索如何让机器人通过感知、决策和执行的闭环，在真实物理环境中自主完成复杂任务。</p>
+                <p>从底层控制算法到上层感知规划，从仿真环境到真实部署，我享受将技术从概念推向落地的完整过程。</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Research -->
+<section id="research">
+    <div class="container">
+        <div class="section-label">研究方向</div>
+        <div class="section-title">让机器人理解世界</div>
+        <div class="cards">
+            <div class="card fade-up">
+                <div class="card-icon">🦿</div>
+                <h3>人形机器人</h3>
+                <p>全身运动控制、双臂灵巧操作、人机协作，让机器人像人一样灵活地在复杂环境中工作。</p>
+            </div>
+            <div class="card fade-up">
+                <div class="card-icon">🐕</div>
+                <h3>四足机器人</h3>
+                <p>基于强化学习的locomotion控制、地形自适应、负载运输，让机器人在非结构化地形中稳健行走。</p>
+            </div>
+            <div class="card fade-up">
+                <div class="card-icon">🚁</div>
+                <h3>无人机系统</h3>
+                <p>自主飞行、视觉导航、多机协同，拓展机器人的三维空间感知与作业能力。</p>
+            </div>
+            <div class="card fade-up">
+                <div class="card-icon">🧠</div>
+                <h3>具身智能</h3>
+                <p>将大语言模型与物理世界交互结合，让机器人具备理解指令、规划任务、自主执行的能力。</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Experience -->
+<section id="experience">
+    <div class="container">
+        <div class="section-label">经历</div>
+        <div class="section-title">成长轨迹</div>
+        <div class="timeline">
+            <div class="timeline-item fade-up">
+                <div class="timeline-year">至今</div>
+                <h3>机器人工程师</h3>
+                <p>从事具身智能相关的研发工作，参与人形/四足机器人系统开发。</p>
+            </div>
+            <div class="timeline-item fade-up">
+                <div class="timeline-year">深圳</div>
+                <h3>深耕机器人领域</h3>
+                <p>持续探索机器人感知、决策与控制的核心技术栈。</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact -->
+<section id="contact">
+    <div class="container">
+        <div class="section-label">联系我</div>
+        <div class="section-title">一起聊聊机器人</div>
+        <p style="color: var(--text-dim); max-width: 500px; margin-bottom: 2rem;">
+            无论是技术交流、项目合作还是随便聊聊，都欢迎联系我。
+        </p>
+        <div class="contact-links">
+            <a href="mailto:hi@liuzf.xyz" class="contact-link">
+                <svg viewBox="0 0 24 24"><path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/></svg>
+                hi@liuzf.xyz
+            </a>
+            <a href="https://github.com" target="_blank" class="contact-link">
+                <svg viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                GitHub
+            </a>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer>
+    <p>© 2026 刘志峰 · <a href="https://liuzf.xyz">liuzf.xyz</a></p>
+    <p style="margin-top: .5rem; font-size: .75rem;">Built with ☕ and curiosity</p>
+</footer>
+
+<script>
+    // Scroll fade-in
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    // Smooth scroll for nav links
+    document.querySelectorAll('a[href^="#"]').forEach(a => {
+        a.addEventListener('click', e => {
+            e.preventDefault();
+            document.querySelector(a.getAttribute('href'))?.scrollIntoView({ behavior: 'smooth' });
+        });
+    });
+</script>
+
+</body>
+</html>
